@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2021/06/22/hexo/"/>
+    <url>/2021/06/22/hexo/</url>
+    
+    <content type="html"><![CDATA[<hr><h2 id="title-Hexo-使用"><a href="#title-Hexo-使用" class="headerlink" title="title:Hexo 使用"></a>title:Hexo 使用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><br><span class="hljs-comment">#让 Hexo 在生成完毕后自动部署网站</span><br>$ hexo generate --deploy<br>$ hexo deploy --generate<br><span class="hljs-comment">#简写上面两个命令可以简写为</span><br>$ hexo g -d<br>$ hexo d -g<br><br><span class="hljs-comment">#使用 Hexo 生成静态文件</span><br>$ hexo generate<br>$ hexo g<br><br><span class="hljs-comment">#启动服务器。默认情况下，访问网址为： http://localhost:4000/</span><br>$ hexo server<br><br><span class="hljs-comment">#部署网址</span><br>$ hexo d<br><br><span class="hljs-comment">#清除缓存文件 (db.json) 和已生成的静态文件 (public)。</span><br><span class="hljs-comment">#在某些情况（尤其是更换主题后），如果发现您对站点的更改无论如何也不生效，您可能需要运行该命令</span><br>$ hexo clean<br><br><br><br>$ hexo clean &amp;&amp; hexo deploy<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>go 基础只是</title>
     <link href="/2021/06/22/GO/"/>
     <url>/2021/06/22/GO/</url>
