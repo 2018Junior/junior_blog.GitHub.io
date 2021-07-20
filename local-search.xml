@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>基础数据结构</title>
+    <link href="/2021/07/20/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    <url>/2021/07/20/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+    
+    <content type="html"><![CDATA[<h3 id="基础数据结构"><a href="#基础数据结构" class="headerlink" title="基础数据结构"></a>基础数据结构</h3><h4 id="链表-介绍"><a href="#链表-介绍" class="headerlink" title="链表-介绍"></a>链表-介绍</h4><p>单链表</p><p><img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210720174716565.png" alt="单链表"></p><p>双向链表<img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210720174743076.png" alt="双向链表"></p><table><thead><tr><th></th><th>数组</th><th>链表（单链表，双向链表）</th></tr></thead><tbody><tr><td>存储方式</td><td>顺序存储</td><td>随机存储</td></tr><tr><td>相同点</td><td>线性数据结构</td><td>线性数据结构</td></tr><tr><td></td><td></td><td></td></tr></tbody></table><p><img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210720174838485.png" alt="数组内存分配"></p><p><img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210720174902864.png" alt="链表内存分配"></p><p>数组VS链表的操作性能</p><p><img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210715203918961.png" alt="数组VS链表"></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>git</title>
     <link href="/2021/07/19/Git/"/>
     <url>/2021/07/19/Git/</url>
@@ -21,7 +34,7 @@
     <link href="/2021/07/19/Jude/"/>
     <url>/2021/07/19/Jude/</url>
     
-    <content type="html"><![CDATA[<p>博客搭建</p><p><a href="https://www.liuxunzhuo.top/">https://www.liuxunzhuo.top/</a></p><p><a href="https://github.com/Xunzhuo/Coder">https://github.com/Xunzhuo/Coder</a></p><p><a href="https://liuxunzhuo.tech/">https://liuxunzhuo.tech/</a></p><p><a href="https://old.liuxunzhuo.tech/">https://old.liuxunzhuo.tech/</a></p>]]></content>
+    <content type="html"><![CDATA[<p>博客搭建</p><p><a href="https://www.liuxunzhuo.top/">https://www.liuxunzhuo.top/</a></p><p><a href="https://github.com/Xunzhuo/Coder">https://github.com/Xunzhuo/Coder</a></p><p><a href="https://liuxunzhuo.tech/">https://liuxunzhuo.tech/</a></p><p><a href="https://old.liuxunzhuo.tech/">https://old.liuxunzhuo.tech/</a></p><p>博客示例</p><p><a href="https://rook1e.com/">https://rook1e.com/</a></p><p><a href="https://www.leavesongs.com/other/friends-link.html">https://www.leavesongs.com/other/friends-link.html</a></p>]]></content>
     
     
     

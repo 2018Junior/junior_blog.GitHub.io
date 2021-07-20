@@ -18,7 +18,7 @@
   <meta name="author" content="Junior">
   <meta name="keywords" content="">
   
-  <title>git - JuniorBlog</title>
+  <title>基础数据结构 - JuniorBlog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="git">
+            <span class="h2" id="subtitle" title="基础数据结构">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-07-19 16:20" pubdate>
-        星期一, 七月 19日 2021, 4:20 下午
+      <time datetime="2021-07-20 17:53" pubdate>
+        星期二, 七月 20日 2021, 5:53 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      92 字
+      65 字
     </span>
   
 
@@ -225,22 +225,40 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">git</h1>
+            <h1 style="display: none">基础数据结构</h1>
             
             <div class="markdown-body">
-              <h4 id="简易的命令行入门教程"><a href="#简易的命令行入门教程" class="headerlink" title="简易的命令行入门教程:"></a>简易的命令行入门教程:</h4><p>Git 全局设置:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">git config --global user.name &quot;Junior2018&quot;<br>git config --global user.email &quot;627942623@qq.com&quot;<br></code></pre></td></tr></table></figure>
-
-<p>创建 git 仓库:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir JuniorBlog<br>cd JuniorBlog<br>git init<br>touch README.md<br>git add README.md<br>git commit -m &quot;first commit&quot;<br>git remote add origin https://gitee.com/junior2018/JuniorBlog.git<br>git push -u origin master<br></code></pre></td></tr></table></figure>
-
-<p>已有仓库?</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd existing_git_repo<br>git remote add origin https://gitee.com/junior2018/JuniorBlog.git<br>git push -u origin master<br></code></pre></td></tr></table></figure>
-
-
-
-<p>多个远端分支</p>
-<p><img src="https://gitee.com/junior2018/mark_down/raw/master/git/image-20210719162521654.png" srcset="/img/loading.gif" lazyload alt="image-20210719162521654"></p>
+              <h3 id="基础数据结构"><a href="#基础数据结构" class="headerlink" title="基础数据结构"></a>基础数据结构</h3><h4 id="链表-介绍"><a href="#链表-介绍" class="headerlink" title="链表-介绍"></a>链表-介绍</h4><p>单链表</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210720174716565.png" srcset="/img/loading.gif" lazyload alt="单链表"></p>
+<p>双向链表<img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210720174743076.png" srcset="/img/loading.gif" lazyload alt="双向链表"></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>数组</th>
+<th>链表（单链表，双向链表）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储方式</td>
+<td>顺序存储</td>
+<td>随机存储</td>
+</tr>
+<tr>
+<td>相同点</td>
+<td>线性数据结构</td>
+<td>线性数据结构</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210720174838485.png" srcset="/img/loading.gif" lazyload alt="数组内存分配"></p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210720174902864.png" srcset="/img/loading.gif" lazyload alt="链表内存分配"></p>
+<p>数组VS链表的操作性能</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/dataStructure/image-20210715203918961.png" srcset="/img/loading.gif" lazyload alt="数组VS链表"></p>
 
             </div>
             <hr>
@@ -261,18 +279,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/07/20/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基础数据结构</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/07/19/Jude/">
-                        <span class="hidden-mobile">Jude</span>
+                      <a href="/2021/07/19/Git/">
+                        <span class="hidden-mobile">git</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
