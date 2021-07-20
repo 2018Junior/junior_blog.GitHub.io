@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>git</title>
+    <link href="/2021/07/19/Git/"/>
+    <url>/2021/07/19/Git/</url>
+    
+    <content type="html"><![CDATA[<h4 id="简易的命令行入门教程"><a href="#简易的命令行入门教程" class="headerlink" title="简易的命令行入门教程:"></a>简易的命令行入门教程:</h4><p>Git 全局设置:</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">git config --global user.name &quot;Junior2018&quot;<br>git config --global user.email &quot;627942623@qq.com&quot;<br></code></pre></td></tr></table></figure><p>创建 git 仓库:</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir JuniorBlog<br>cd JuniorBlog<br>git init<br>touch README.md<br>git add README.md<br>git commit -m &quot;first commit&quot;<br>git remote add origin https://gitee.com/junior2018/JuniorBlog.git<br>git push -u origin master<br></code></pre></td></tr></table></figure><p>已有仓库?</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd existing_git_repo<br>git remote add origin https://gitee.com/junior2018/JuniorBlog.git<br>git push -u origin master<br></code></pre></td></tr></table></figure><p>多个远端分支</p><p><img src="https://gitee.com/junior2018/mark_down/raw/master/git/image-20210719162521654.png" alt="image-20210719162521654"></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Jude</title>
     <link href="/2021/07/19/Jude/"/>
     <url>/2021/07/19/Jude/</url>
