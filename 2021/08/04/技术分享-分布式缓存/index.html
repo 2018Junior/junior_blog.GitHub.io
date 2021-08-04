@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="PHP go Linux 博客">
+  <meta name="author" content="Junior">
+  <meta name="keywords" content="">
+  
+  <title>分布式缓存 - JuniorBlog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"386292c51955aec0e2dfbe44ec08bfca","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"yqI8TvDG54nHYsFgoYGXou6T-gzGzoHsz","app_key":"sRN8izHAir3c2s0zzjkxDfRl","server_url":"https://yqi8tvdg.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Junior space</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="分布式缓存">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-08-04 10:21" pubdate>
+        星期三, 八月 4日 2021, 10:21 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      60
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">分布式缓存</h1>
+            
+            <div class="markdown-body">
+              <h1 id="分布式缓存"><a href="#分布式缓存" class="headerlink" title="分布式缓存"></a>分布式缓存</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着互联网的普及，内容信息越来越复杂，用户数和访问量越来越大，我们的应用需要支撑更多的并发量，同时我们的应用服务器和数据库服务器所做的计算也越来越多。但是往往我们的应用服务器资源是有限的，且技术变革是缓慢的，数据库每秒能接受的请求次数也是有限的（或者文件的读写也是有限的），如何能够有效利用有限的资源来提供尽可能大的吞吐量？一个有效的办法就是引入缓存，打破标准流程，每个环节中请求可以从缓存中直接获取目标数据并返回，从而减少计算量，有效提升响应速度，让有限的资源服务更多的用户。</p>
+<p>​                                                 <img src="https://awps-assets.meituan.net/mit-x/blog-images-bundle-2017/83465746.png" srcset="/img/loading.gif" lazyload alt="图1 互联网应用一般流程">  </p>
+<p>如图所示，缓存的使用可以出现在1-4的各个环节中，每个环节的缓存方案与使用各有特点。</p>
+<h2 id="缓存的特征"><a href="#缓存的特征" class="headerlink" title="缓存的特征"></a>缓存的特征</h2><h3 id="命中率"><a href="#命中率" class="headerlink" title="命中率"></a>命中率</h3><p>命中率=返回正确结果数/请求缓存次数，命中率问题是缓存中的一个非常重要的问题，它是衡量缓存有效性的重要指标。命中率越高，表明缓存的使用率越高。</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/LRU/image-20210803132803817.png" srcset="/img/loading.gif" lazyload alt="image-20210803132803817"><img src=".%5Cimage-20210803132829859.png" srcset="/img/loading.gif" lazyload alt="image-20210803132829859"></p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/LRU/image-20210803133900309.png" srcset="/img/loading.gif" lazyload alt="image-20210803133900309"></p>
+<h3 id="最大元素（或最大空间）"><a href="#最大元素（或最大空间）" class="headerlink" title="最大元素（或最大空间）"></a>最大元素（或最大空间）</h3><p>缓存中可以存放的最大元素的数量，一旦缓存中元素数量超过这个值（或者缓存数据所占空间超过其最大支持空间），那么将会触发缓存启动清空策略根据不同的场景合理的设置最大元素值往往可以一定程度上提高缓存的命中率，从而更有效的时候缓存。</p>
+<h3 id="清空策略"><a href="#清空策略" class="headerlink" title="清空策略"></a>清空策略</h3><p>如上描述，缓存的存储空间有限制，当缓存空间被用满时，如何保证在稳定服务的同时有效提升命中率？这就由缓存清空策略来处理，设计适合自身数据特征的清空策略能有效提升命中率。常见的一般策略有：</p>
+<ul>
+<li><strong>FIFO(first in first out)</strong></li>
+</ul>
+<p>先进先出策略，最先进入缓存的数据在缓存空间不够的情况下（超出最大元素限制）会被优先被清除掉，以腾出新的空间接受新的数据。策略算法主要比较缓存元素的创建时间。在数据实效性要求场景下可选择该类策略，优先保障最新数据可用。</p>
+<ul>
+<li><strong>LFU(less frequently used)</strong></li>
+</ul>
+<p>最少使用策略，无论是否过期，根据元素的被使用次数判断，清除使用次数较少的元素释放空间。策略算法主要比较元素的hitCount（命中次数）。在保证高频数据有效性场景下，可选择这类策略。</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/LRU/image-20210803134418528.png" srcset="/img/loading.gif" lazyload alt="image-20210803134418528"></p>
+<p>LFU 的数据结构包含三个部分:一个双向链表、若干双向循环链表、一个哈希表。其中,哈希表的作用与 LRU 相同,用于内容的快速查找。双向链表是频数链表,即链表的每个节点是访问计数,每个频数节点包含一个指针指向一个双向循环链表,双向循环链表中存储着内容信息,即所有具有相同访问计数的内容都存储在一个对应的双向循环链表中。哈希表存储的即是内容名称到双向循环链表节点指针的映射关系。</p>
+<p>频数链表按照访问计数从小到大排列,当路由器因为存储新内容需要替换旧内容时,如果缓存空间不够,就从头节点 head 指向的频数节点指向的双向循环链表中删除内容节点以释放空间。如果第一个双向链表变为空,就将与之关联的频数节点从频数链表中删除。这样通过频数链表,所有内容就按照自己的访问计数有序的组织在一起。</p>
+<p>特别地,这里要求频数链表中每个节点指向的双向循环链表都不为空,如果为空就删除该频数节点,从而限制了频数链表的长度,保证时间复杂度和空间复杂度不会无限制增长。当缓存中的某个内容被访问时,需要对其访问计数加 1。</p>
+<p>此时,将其从原双向循环列表中删除,移动到对应访问计数的双向循环链表中,如果该频数节点不存在则创建一个新的频数节点和一个新的双向循环链表来存储该内容。经过这样复杂的维护,LFU 的查找和更新时间复杂度均为 O(1),空间复杂度为 O(N),为大规模实现仿真提供了良好的基础。</p>
+<ul>
+<li><strong>LRU(least recently used)</strong></li>
+</ul>
+<p>最近最少使用策略，无论是否过期，根据元素最后一次被使用的时间戳，清除最远使用时间戳的元素释放空间。策略算法主要比较元素最近一次被get使用时间。在热点数据场景下较适用，优先保证热点数据的有效性。</p>
+<p>除此之外，还有一些简单策略比如：</p>
+<ul>
+<li>根据过期时间判断，清理过期时间最长的元素；</li>
+<li>根据过期时间判断，清理最近要过期的元素；</li>
+<li>随机清理；</li>
+<li>根据关键字（或元素内容）长短清理等。</li>
+</ul>
+<p>我们常见的Redis的淘汰策略有六种：</p>
+<ul>
+<li>noeviction(默认策略)：对于写请求不再提供服务，直接返回错误（DEL请求和部分特殊请求除外）</li>
+<li>allkeys-lru：从所有key中使用LRU算法进行淘汰</li>
+<li>volatile-lru：从设置了过期时间的key中使用LRU算法进行淘汰</li>
+<li>allkeys-random：从所有key中随机淘汰数据</li>
+<li>volatile-random：从设置了过期时间的key中随机淘汰</li>
+<li>volatile-ttl：在设置了过期时间的key中，淘汰过期时间剩余最短的</li>
+</ul>
+<h2 id="缓存介质"><a href="#缓存介质" class="headerlink" title="缓存介质"></a>缓存介质</h2><p>虽然从硬件介质上来看，无非就是内存和硬盘两种，但从技术上，可以分成内存、硬盘文件、数据库</p>
+<ul>
+<li><strong>内存：</strong>将缓存存储于内存中是最快的选择，无需额外的I/O开销，但是内存的缺点是没有持久化落地物理磁盘，一旦应用异常break down而重新启动，数据很难或者无法复原。</li>
+<li><strong>硬盘：</strong>一般来说，很多缓存框架会结合使用内存和硬盘，在内存分配空间满了或是在异常的情况下，可以被动或主动的将内存空间数据持久化到硬盘中，达到释放空间或备份数据的目的。</li>
+<li><strong>数据库：</strong>前面有提到，增加缓存的策略的目的之一就是为了减少数据库的I/O压力。现在使用数据库做缓存介质是不是又回到了老问题上了？其实，数据库也有很多种类型，像那些不支持SQL，只是简单的key-value存储结构的特殊数据库（如BerkeleyDB和Redis），响应速度和吞吐量都远远高于我们常用的关系型数据库等。</li>
+</ul>
+<p>Redis采用的就是内存的缓存介质，因此它的单机读取速度可高达110000次/s，写速度高达81000次/s，不过与memcache不同的是储存在Redis中的数据是持久化的，断电或重启后，数据也不会丢失。</p>
+<h2 id="缓存分类和应用场景"><a href="#缓存分类和应用场景" class="headerlink" title="缓存分类和应用场景"></a>缓存分类和应用场景</h2><p>缓存有各类特征，而且有不同介质的区别，那么实际工程中我们怎么去对缓存分类呢？在目前的应用服务框架中，比较常见的，时根据缓存雨应用的藕合度，分为local cache（本地缓存）和remote cache（分布式缓存）：</p>
+<ul>
+<li><strong>本地缓存</strong>：指的是在应用中的缓存组件，其最大的优点是应用和cache是在同一个进程内部，请求缓存非常快速，没有过多的网络开销等，在单应用不需要集群支持或者集群情况下各节点无需互相通知的场景下使用本地缓存较合适；同时，它的缺点也是应为缓存跟应用程序耦合，多个应用程序无法直接的共享缓存，各应用或集群的各节点都需要维护自己的单独缓存，对内存是一种浪费。</li>
+<li><strong>分布式缓存</strong>：指的是与应用分离的缓存组件或服务，其最大的优点是自身就是一个独立的应用，与本地应用隔离，多个应用可直接的共享缓存。</li>
+</ul>
+<p>目前各种类型的缓存都活跃在成千上万的应用服务中，还没有一种缓存方案可以解决一切的业务场景或数据类型，我们需要根据自身的特殊场景和背景，选择最适合的缓存方案。缓存的使用是程序员、架构师的必备技能，好的程序员能根据数据类型、业务场景来准确判断使用何种类型的缓存，如何使用这种缓存，以最小的成本最快的效率达到最优的目的。</p>
+<h2 id="接下来讲一下我自己实现的分布式缓存"><a href="#接下来讲一下我自己实现的分布式缓存" class="headerlink" title="接下来讲一下我自己实现的分布式缓存"></a>接下来讲一下我自己实现的分布式缓存</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs awk">xmcache/<br>    |--lru/<br>        |--lru.go  	 		<span class="hljs-regexp">//</span> lru 缓存淘汰策略<br>    |--main/<br>    	|main.go     		<span class="hljs-regexp">//</span> 主函数<br>    |--model/<br>    	|stock.go	 		<span class="hljs-regexp">//</span> 数据源<br>	|--singleflight/<br>		|singleflight		<span class="hljs-regexp">//</span> 解决缓存穿透<br>	|--xmcachepb/<br>		|xmcachepb.pb.go 	<span class="hljs-regexp">//</span> protobuf 生成代码<br>        |xmcachepb.proto 	<span class="hljs-regexp">//</span> protobuf<br>    |--byteview.go 	     	<span class="hljs-regexp">//</span> 缓存值的抽象与封装<br>    |--cache.go    	 		<span class="hljs-regexp">//</span> 并发控制<br>    |--xmcache.go 	 		<span class="hljs-regexp">//</span> 负责与外部交互，控制缓存存储和获取的主流程<br>    |--peers.go 	 		<span class="hljs-regexp">//</span> 负责寻找节点<br>	|--http.go		 		<span class="hljs-regexp">//</span> 提供被其他节点访问的能力(基于http)<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="淘汰策略"><a href="#淘汰策略" class="headerlink" title="淘汰策略"></a>淘汰策略</h3><p>采用LRU算法实现</p>
+<h5 id="核心数据结构"><a href="#核心数据结构" class="headerlink" title="核心数据结构"></a>核心数据结构</h5><p><img src="https://geektutu.com/post/geecache-day1/lru.jpg" srcset="/img/loading.gif" lazyload alt="implement lru algorithm with golang"></p>
+<ul>
+<li>绿色的是字典(map)，存储键和值的映射关系。这样根据某个键(key)查找对应的值(value)的复杂是<code>O(1)</code>，在字典中插入一条记录的复杂度也是<code>O(1)</code>。</li>
+<li>红色的是双向链表(double linked list)实现的队列。将所有的值放到双向链表中，这样，当访问到某个值时，将其移动到队尾的复杂度是<code>O(1)</code>，在队尾新增一条记录以及删除一条记录的复杂度均为<code>O(1)</code>。</li>
+</ul>
+<h3 id="单机并发缓存"><a href="#单机并发缓存" class="headerlink" title="单机并发缓存"></a>单机并发缓存</h3><p>接下来举一个简单的例子，假设有10个并发的协程打印了同一个数字<code>100</code>，为了避免重复打印，实现了<code>printOnce(num int)</code> 函数，使用集合 set 记录已打印过的数字，如果数字已打印过，则不再打印。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> set = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-keyword">int</span>]<span class="hljs-keyword">bool</span>, <span class="hljs-number">0</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">printOnce</span><span class="hljs-params">(num <span class="hljs-keyword">int</span>)</span></span> &#123;<br>	<span class="hljs-keyword">if</span> _, exist := set[num]; !exist &#123;<br>		fmt.Println(num)<br>	&#125;<br>	set[num] = <span class="hljs-literal">true</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ &#123;<br>		<span class="hljs-keyword">go</span> printOnce(<span class="hljs-number">100</span>)<br>	&#125;<br>	time.Sleep(time.Second)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们运行 <code>go run .</code> 会发生什么情况呢？</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">$ go <span class="hljs-builtin-name">run</span> .<br>100<br>100<br></code></pre></td></tr></table></figure>
+
+<p>有时候打印 2 次，有时候打印 4 次，有时候还会触发 panic，因为对同一个数据结构<code>set</code>的访问冲突了。接下来用互斥锁的<code>Lock()</code>和<code>Unlock()</code> 方法将冲突的部分包裹起来：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> m sync.Mutex<br><span class="hljs-keyword">var</span> set = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-keyword">int</span>]<span class="hljs-keyword">bool</span>, <span class="hljs-number">0</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">printOnce</span><span class="hljs-params">(num <span class="hljs-keyword">int</span>)</span></span> &#123;<br>	m.Lock()<br>	<span class="hljs-keyword">if</span> _, exist := set[num]; !exist &#123;<br>		fmt.Println(num)<br>	&#125;<br>	set[num] = <span class="hljs-literal">true</span><br>	m.Unlock()<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ &#123;<br>		<span class="hljs-keyword">go</span> printOnce(<span class="hljs-number">100</span>)<br>	&#125;<br>	time.Sleep(time.Second)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">$ go <span class="hljs-builtin-name">run</span> .<br>100<br></code></pre></td></tr></table></figure>
+
+<p>相同的数字只会被打印一次。当一个协程调用了 <code>Lock()</code> 方法时，其他协程被阻塞了，直到<code>Unlock()</code>调用将锁释放。因此被包裹部分的代码就能够避免冲突，实现互斥。</p>
+<p>因此使用 <code>sync.Mutex</code> 封装 LRU 的几个方法 <code>get()</code>  <code>add()</code>，使之支持并发的读写</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck">                            <span class="hljs-comment">是</span><br><span class="hljs-comment">接收</span> <span class="hljs-comment">key</span> --&gt; <span class="hljs-comment">检查是否被缓存</span> --<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">返回缓存值</span> <span class="hljs-comment">⑴</span><br>                <span class="hljs-comment">|</span>  <span class="hljs-comment">否</span>                         <span class="hljs-comment">是</span><br>                <span class="hljs-comment">|</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">是否应当从远程节点获取</span> --<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">与远程节点交互</span> --&gt; <span class="hljs-comment">返回缓存值</span> <span class="hljs-comment">⑵</span><br>                            <span class="hljs-comment">|</span>  <span class="hljs-comment">否</span><br>                            <span class="hljs-comment">|</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">调用`回调函数`，获取值并添加到缓存</span> --&gt; <span class="hljs-comment">返回缓存值</span> <span class="hljs-comment">⑶</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="一致性哈希"><a href="#一致性哈希" class="headerlink" title="一致性哈希"></a>一致性哈希</h3><p>对于分布式缓存来说，当一个节点接收到请求，如果该节点并没有存储缓存值，那么它面临的难题是，从谁那获取数据？自己，还是节点1, 2, 3, 4… 。假设包括自己在内一共有 10 个节点，当一个节点接收到请求时，随机选择一个节点，由该节点从数据源获取数据。</p>
+<p>假设第一次随机选取了节点 1 ，节点 1 从数据源获取到数据的同时缓存该数据；那第二次，只有 1/10 的可能性再次选择节点 1, 有 9/10 的概率选择了其他节点，如果选择了其他节点，就意味着需要再一次从数据源获取数据，一般来说，这个操作是很耗时的。这样做，一是缓存效率低，二是各个节点上存储着相同的数据，浪费了大量的存储空间。</p>
+<p>那有什么办法，对于给定的 key，每一次都选择同一个节点呢？使用 hash 算法也能够做到这一点。那把 key 的每一个字符的 ASCII 码加起来，再除以 10 取余数可以吗？当然可以，这可以认为是自定义的 hash 算法。</p>
+<p><img src="https://geektutu.com/post/geecache-day4/hash_select.jpg" srcset="/img/loading.gif" lazyload alt="hash select peer"></p>
+<p>从上面的图可以看到，任意一个节点任意时刻请求查找键 <code>Tom</code> 对应的值，都会分配给节点 2，有效地解决了上述的问题。</p>
+<p>节点数变化了怎么办？</p>
+<p>简单求取 Hash 值解决了缓存性能的问题，但是没有考虑节点数量变化的场景。假设，移除了其中一台节点，只剩下 9 个，那么之前 <code>hash(key) % 10</code> 变成了 <code>hash(key) % 9</code>，也就意味着几乎缓存值对应的节点都发生了改变。即几乎所有的缓存值都失效了。节点在接收到对应的请求时，均需要重新去数据源获取数据，容易引起 <code>缓存雪崩</code>。</p>
+<p>如何解决问题？采用一致性哈希算法</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><h5 id="具体细节"><a href="#具体细节" class="headerlink" title="具体细节"></a>具体细节</h5><p>一致性哈希算法将 key 映射到 2^32 的空间中，将这个数字首尾相连，形成一个环。</p>
+<ul>
+<li>计算节点/机器(通常使用节点的名称、编号和 IP 地址)的哈希值，放置在环上。</li>
+<li>计算 key 的哈希值，放置在环上，顺时针寻找到的第一个节点，就是应选取的节点/机器。</li>
+</ul>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/LRU/image-20210802170408705.png" srcset="/img/loading.gif" lazyload alt="image-20210802170408705"></p>
+<p>环上有 p2，p4 两节点，<code>key1</code>，<code>key2</code>，<code>key4</code>均映射到 peer2，<code>key3</code> 映射到 p4,此时，如果新增节点/机器 p6，假设它新增位置如图所示，那么只有 <code>key1</code> 从 p2 调整到 p6，其余的映射均没有发生改变。</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/LRU/image-20210802174002011.png" srcset="/img/loading.gif" lazyload alt="image-20210802174002011"></p>
+<p>也就是说，一致性哈希算法，在新增/删除节点时，只需要重新定位该节点附近的一小部分数据，而不需要重新定位所有的节点，这就解决了上述的问题。</p>
+<h5 id="数据倾斜问题"><a href="#数据倾斜问题" class="headerlink" title="数据倾斜问题"></a>数据倾斜问题</h5><p>如果服务器的节点过少，容易引起 key 的倾斜。例如上面例子中的 p2，p4，分布在环的下半部分，上半部分是空的。那么映射到环上半部分的 key 都会被分配给 p2，key 过度向 p2 倾斜，缓存节点间负载不均。</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/LRU/image-20210802174141664.png" srcset="/img/loading.gif" lazyload alt="image-20210802174141664"></p>
+<p>为了解决这个问题，引入了虚拟节点的概念，一个真实节点对应多个虚拟节点。</p>
+<p>假设 1 个真实节点对应 2 个虚拟节点，那么 p2 对应的虚拟节点是 p2-1、 p2-2（通常以添加编号的方式实现），其余节点也以相同的方式操作。</p>
+<ul>
+<li>第一步，计算虚拟节点的 Hash 值，放置在环上。</li>
+<li>第二步，计算 key 的 Hash 值，在环上顺时针寻找到应选取的虚拟节点，例如是 p2-1，那么就对应真实节点 p2。</li>
+</ul>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/LRU/image-20210802174953188.png" srcset="/img/loading.gif" lazyload alt="image-20210802174953188"></p>
+<p>虚拟节点扩充了节点的数量，解决了节点较少的情况下数据容易倾斜的问题。而且代价非常小，只需要增加一个字典(map)维护真实节点与虚拟节点的映射关系即可。</p>
+<p>一致性哈希与Redis使用分片的策略对比</p>
+<p>Redis 集群键分布算法使用数据分片（sharding）而非一致性哈希（consistency hashing）来实现： 一个 Redis 集群包含 16384 个哈希槽（hash slot）， 它们的编号为0、1、2、3……16382、16383，这个槽是一个逻辑意义上的槽，实际上并不存在。redis中的每个key都属于这 16384 个哈希槽的其中一个，存取key时都要进行key-&gt;slot的映射计算</p>
+<p>无论是memcached的一致性哈希算法，还是redis的集群分区，最主要的目的都是在移除、添加一个节点时对已经存在的缓存数据的定位影响尽可能的降到最小。redis将哈希槽分布到不同节点的做法使得用户可以很容易地向集群中添加或者删除节点， 比如说：</p>
+<ul>
+<li><p>如果用户将新节点 D 添加到集群中， 那么集群只需要将节点 A 、B 、 C 中的某些槽移动到节点 D 就可以了。</p>
+</li>
+<li><p>与此类似， 如果用户要从集群中移除节点 A ， 那么集群只需要将节点 A 中的所有哈希槽移动到节点 B 和节点 C ， 然后再移除空白（不包含任何哈希槽）的节点 A 就可以了。</p>
+</li>
+</ul>
+<p>因为将一个哈希槽从一个节点移动到另一个节点不会造成节点阻塞， 所以无论是添加新节点还是移除已存在节点， 又或者改变某个节点包含的哈希槽数量， 都不会造成集群下线，从而保证集群的可用性。</p>
+<h3 id="分布式节点"><a href="#分布式节点" class="headerlink" title="分布式节点"></a>分布式节点</h3><figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">使用一致性哈希选择节点</span>        <span class="hljs-comment">是</span>                                    <span class="hljs-comment">是</span><br>    <span class="hljs-comment">|</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">是否是远程节点</span> --<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">HTTP</span> <span class="hljs-comment">客户端访问远程节点</span> --&gt; <span class="hljs-comment">成功？</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">服务端返回返回值</span><br>                    <span class="hljs-comment">|</span>  <span class="hljs-comment">否</span>                                    <span class="hljs-comment">↓</span>  <span class="hljs-comment">否</span><br>                    <span class="hljs-comment">|</span>--<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">回退到本地节点处理。</span><br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>在这里，抽象出 2 个接口，PeerPicker 的 <code>PickPeer()</code> 方法用于根据传入的 key 选择相应节点 PeerGetter。</li>
+<li>接口 PeerGetter 的 <code>Get()</code> 方法用于从对应 group 查找缓存值。PeerGetter 就对应于上述流程中的 HTTP 客户端。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> PeerPicker <span class="hljs-keyword">interface</span> &#123;<br>	PickPeer(key <span class="hljs-keyword">string</span>)(peer PeerGetter,ok <span class="hljs-keyword">bool</span>) <span class="hljs-comment">//用于根据传入的 key 选择相应节点</span><br>&#125;<br><br><span class="hljs-keyword">type</span> PeerGetter <span class="hljs-keyword">interface</span>&#123;<br>	Get(group <span class="hljs-keyword">string</span>, key <span class="hljs-keyword">string</span>)([]<span class="hljs-keyword">byte</span>,error) <span class="hljs-comment">//从对应 group 查找缓存值</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>为 HTTPPool 添加节点选择的功能</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> HTTPPool <span class="hljs-keyword">struct</span> &#123;<br>   <span class="hljs-comment">// this peer&#x27;s base URL, e.g. &quot;https://example.net:8000&quot;</span><br>   self        <span class="hljs-keyword">string</span><br>   basePath    <span class="hljs-keyword">string</span><br>   mu          sync.Mutex<br>   peers       *consistenthash.Map    <span class="hljs-comment">//一致性哈希算法的 Map，用来根据具体的 key 选择节点</span><br>   httpGetters <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]*httpGetter <span class="hljs-comment">// 映射远程节点与对应的 httpGetter</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="防止缓存击穿"><a href="#防止缓存击穿" class="headerlink" title="防止缓存击穿"></a>防止缓存击穿</h3><blockquote>
+<p><strong>缓存雪崩</strong>：缓存在同一时刻全部失效，造成瞬时DB请求量大、压力骤增，引起雪崩。缓存雪崩通常因为缓存服务器宕机、缓存的 key 设置了相同的过期时间等引起。</p>
+</blockquote>
+<blockquote>
+<p><strong>缓存击穿</strong>：一个存在的key，在缓存过期的一刻，同时有大量的请求，这些请求都会击穿到 DB ，造成瞬时DB请求量大、压力骤增。</p>
+</blockquote>
+<blockquote>
+<p><strong>缓存穿透</strong>：查询一个不存在的数据，因为不存在则不会写到缓存中，所以每次都会去请求 DB，如果瞬间流量过大，穿透到 DB，导致宕机。</p>
+</blockquote>
+<p>使用<code>sync.WaitGroup</code>来阻塞后续的get请求，直到第一次get请求返回</p>
+<p>并发协程之间不需要消息传递，非常适合 <code>sync.WaitGroup</code>。</p>
+<ul>
+<li>wg.Add(1) 锁加1。</li>
+<li>wg.Wait() 阻塞，直到锁被释放。</li>
+<li>wg.Done() 锁减1。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> singleflight<br><br><span class="hljs-keyword">import</span> (<br>   <span class="hljs-string">&quot;sync&quot;</span><br>   <span class="hljs-string">&quot;time&quot;</span><br>)<br><br><span class="hljs-keyword">type</span> call <span class="hljs-keyword">struct</span> &#123;<br>   wg  sync.WaitGroup<br>   val <span class="hljs-keyword">interface</span>&#123;&#125;<br>   err error<br>&#125;<br><br><span class="hljs-keyword">type</span> Group <span class="hljs-keyword">struct</span> &#123;<br>   mu sync.Mutex<br>   m  <span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]*call<br>&#125;<br><br><span class="hljs-comment">//针对相同的 key，无论 Do 被调用多少次，函数 fn 都只会被调用一次，</span><br><span class="hljs-comment">//等待 fn 调用结束了，返回返回值或错误</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(g *Group)</span> <span class="hljs-title">Do</span><span class="hljs-params">(key <span class="hljs-keyword">string</span>, fn <span class="hljs-keyword">func</span>()</span> <span class="hljs-params">(<span class="hljs-keyword">interface</span>&#123;&#125;, error)</span>) <span class="hljs-params">(<span class="hljs-keyword">interface</span>&#123;&#125;, error)</span></span> &#123;<br>   g.mu.Lock()<br>   <span class="hljs-keyword">if</span> g.m == <span class="hljs-literal">nil</span> &#123;<br>      g.m = <span class="hljs-built_in">make</span>(<span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]*call)<br>   &#125;<br>   <span class="hljs-keyword">if</span> c, ok := g.m[key]; ok &#123;<br>      g.mu.Unlock()<br>      c.wg.Wait()          <span class="hljs-comment">// 如果请求正在进行中，则等待</span><br>      <span class="hljs-keyword">return</span> c.val, c.err<br>   &#125;<br>   c := <span class="hljs-built_in">new</span>(call)<br>   c.wg.Add(<span class="hljs-number">1</span>)          <span class="hljs-comment">// 发起请求前加锁</span><br>   g.m[key] = c            <span class="hljs-comment">// 添加到 g.m，表明 key 已经有对应的请求在处理</span><br><br>   g.mu.Unlock()<br><br>   c.val, c.err = fn()       <span class="hljs-comment">// 调用 fn，发起请求</span><br>   c.wg.Done()               <span class="hljs-comment">// 请求结束</span><br>   time.Sleep(time.Second*<span class="hljs-number">2</span>)  <span class="hljs-comment">//测试并发</span><br>   g.mu.Lock()<br>   <span class="hljs-built_in">delete</span>(g.m, key)         <span class="hljs-comment">// 更新 g.m</span><br>   g.mu.Unlock()<br><br>   <span class="hljs-keyword">return</span> c.val, c.err<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="节点之间的通信"><a href="#节点之间的通信" class="headerlink" title="节点之间的通信"></a>节点之间的通信</h3><h4 id="采用-protobuf"><a href="#采用-protobuf" class="headerlink" title="采用 protobuf"></a>采用 <code>protobuf</code></h4><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs protobuf">syntax = <span class="hljs-string">&quot;proto3&quot;</span>;<br><br><span class="hljs-keyword">option</span> go_package=<span class="hljs-string">&quot;./;xmcachepb&quot;</span>;<br><span class="hljs-keyword">package</span> xmcachepb;<br><br><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Request</span> </span>&#123;<br>  <span class="hljs-built_in">string</span> <span class="hljs-keyword">group</span> = <span class="hljs-number">1</span>;<br>  <span class="hljs-built_in">string</span> key = <span class="hljs-number">2</span>;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">message</span> <span class="hljs-title">Response</span> </span>&#123;<br>  <span class="hljs-built_in">bytes</span> value = <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">service</span> <span class="hljs-title">GroupCache</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">rpc</span> Get(Request) <span class="hljs-keyword">returns</span> (Response)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>使用 <code>RPC</code>通信远程节点</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-comment">// 从访问远程节点，获取缓存值</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(g *Group)</span> <span class="hljs-title">getFromPeer</span><span class="hljs-params">(peer PeerGetter, key <span class="hljs-keyword">string</span>)</span> <span class="hljs-params">(ByteView, error)</span></span> &#123;<br>   req := &amp;pb.Request&#123;<br>      Group: g.name,<br>      Key:   key,<br>   &#125;<br>   res := &amp;pb.Response&#123;&#125;<br>   <span class="hljs-comment">// RPC 调用</span><br>   err := peer.Get(req, res)<br>   <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;<br>      <span class="hljs-keyword">return</span> ByteView&#123;&#125;, err<br>   &#125;<br>   <span class="hljs-keyword">return</span> ByteView&#123;b: res.Value&#125;, <span class="hljs-literal">nil</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/20/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                        <span class="hidden-mobile">基础数据结构</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?386292c51955aec0e2dfbe44ec08bfca";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
