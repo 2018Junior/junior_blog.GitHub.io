@@ -18,7 +18,7 @@
   <meta name="author" content="Junior">
   <meta name="keywords" content="">
   
-  <title>git - JuniorBlog</title>
+  <title>GO 问题汇总 - JuniorBlog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -68,7 +68,7 @@
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
-       href="/">&nbsp;<strong>Junior space</strong>&nbsp;</a>
+       href="/">&nbsp;<strong>workSpace</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="git">
+            <span class="h2" id="subtitle" title="GO 问题汇总">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-07-19 16:20" pubdate>
-        星期一, 七月 19日 2021, 4:20 下午
+      <time datetime="2021-08-09 11:29" pubdate>
+        星期一, 八月 9日 2021, 11:29 上午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      92 字
+      159 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      2
        分钟
     </span>
   
@@ -225,28 +225,35 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">git</h1>
+            <h1 style="display: none">GO 问题汇总</h1>
             
             <div class="markdown-body">
-              <h4 id="简易的命令行入门教程"><a href="#简易的命令行入门教程" class="headerlink" title="简易的命令行入门教程:"></a>简易的命令行入门教程:</h4><p>Git 全局设置:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">git config --global user.name &quot;Junior2018&quot;<br>git config --global user.email &quot;627942623@qq.com&quot;<br></code></pre></td></tr></table></figure>
+              <h1 id="GO-问题汇总"><a href="#GO-问题汇总" class="headerlink" title="GO 问题汇总"></a>GO 问题汇总</h1><h4 id="空指针报错"><a href="#空指针报错" class="headerlink" title="空指针报错"></a>空指针报错</h4><p><code>panic: runtime error: invalid memory address or nil pointer dereference</code></p>
+<p>比如定义一个全局变量  var Db *gorm.DB</p>
+<p>如果没有对 Db 赋值，就会报 nil pointer 错误</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/image-20210603201449868.png" srcset="/img/loading.gif" lazyload alt="image-20210603201449868"></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> db *gorm.DB<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//主函数里面使用的是局部变量， := 会声明变量并赋值</span><br>    db, err := gorm.Open(<span class="hljs-string">&quot;mysql&quot;</span>,<br>		fmt.Sprintf(<span class="hljs-string">&quot;%s:%s@(%s)/%s?charset=utf8mb4&amp;parseTime=True&amp;loc=Local&quot;</span>,<br>			user, password, localhost, dbname))<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">deal</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">//方法里面使用的是 全局db</span><br>    questionList := <span class="hljs-built_in">make</span>([]BankQuestion, <span class="hljs-number">0</span>)<br>	db.Table(<span class="hljs-string">&quot;t_bank_question&quot;</span>).Where(<br>		<span class="hljs-keyword">map</span>[<span class="hljs-keyword">string</span>]<span class="hljs-keyword">interface</span>&#123;&#125;&#123;<span class="hljs-string">&quot;app_id&quot;</span>: appId, <span class="hljs-string">&quot;question_library_id&quot;</span>: library.Id, <span class="hljs-string">&quot;state&quot;</span>: <span class="hljs-number">0</span>&#125;).Find(&amp;questionList)<br>	<span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(questionList) == <span class="hljs-number">0</span> &#123;<br>		<span class="hljs-keyword">return</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>创建 git 仓库:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir JuniorBlog<br>cd JuniorBlog<br>git init<br>touch README.md<br>git add README.md<br>git commit -m &quot;first commit&quot;<br>git remote add origin https://gitee.com/junior2018/JuniorBlog.git<br>git push -u origin master<br></code></pre></td></tr></table></figure>
-
-<p>已有仓库?</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd existing_git_repo<br>git remote add origin https://gitee.com/junior2018/JuniorBlog.git<br>git push -u origin master<br></code></pre></td></tr></table></figure>
-
-
-
-<p>多个远端分支</p>
-<p><img src="https://gitee.com/junior2018/mark_down/raw/master/git/image-20210719162521654.png" srcset="/img/loading.gif" lazyload alt="image-20210719162521654"></p>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Golang/">Golang</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Golang/">Golang</a>
+                    
+                  </div>
                 
               </div>
               
@@ -261,18 +268,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/07/20/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基础数据结构</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/07/19/Jude/">
-                        <span class="hidden-mobile">Jude</span>
+                      <a href="/2021/08/04/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB-%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/">
+                        <span class="hidden-mobile">分布式缓存</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
