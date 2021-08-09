@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="PHP go Linux 博客">
+  <meta name="author" content="Junior">
+  <meta name="keywords" content="">
+  
+  <title>goms - JuniorBlog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"386292c51955aec0e2dfbe44ec08bfca","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"yqI8TvDG54nHYsFgoYGXou6T-gzGzoHsz","app_key":"sRN8izHAir3c2s0zzjkxDfRl","server_url":"https://yqi8tvdg.lc-cn-n1-shared.com"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Junior space</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="goms">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-15 17:41" pubdate>
+        星期四, 七月 15日 2021, 5:41 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">goms</h1>
+            
+            <div class="markdown-body">
+              <h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><ol>
+<li>select 和 epoll。（很常规的问题，也算是必考题了）</li>
+<li>HTTP 和 HTTPS 的区别。</li>
+<li>TCP 拥塞控制。</li>
+<li>HTTPS 的加密过程</li>
+<li>三次握手和四次挥手，说一下 time_wait</li>
+</ol>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><p>kafka</p>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><p>引用传递类型：map、slice、channel、指针类型</p>
+<h3 id="Golang中make与new有何区别"><a href="#Golang中make与new有何区别" class="headerlink" title="Golang中make与new有何区别"></a>Golang中make与new有何区别</h3><p>对于<code>引用类型</code>的变量，我们不光要声明它，还要为它分配内存空间，</p>
+<p>对于<code>值类型</code>的声明不需要，是因为已经默认帮我们分配好了</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs go">相同点：<br><span class="hljs-built_in">new</span> 和 <span class="hljs-built_in">make</span> 都是为了分配内存<br><br>不同点：<br><span class="hljs-built_in">new</span>(不常用)<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">new 接受一个类型参数，返回一个指向该类型内存地址的指针，并且会将值置为类型的零值</span><br><span class="hljs-comment">int 零值为0，string 零值为&quot;&quot;，引用类型的零值为 nil</span><br><span class="hljs-comment">*/</span><br>num := <span class="hljs-built_in">new</span>(<span class="hljs-keyword">int</span>)<br><br><br><span class="hljs-built_in">make</span>(无可替代)<br><span class="hljs-comment">//只适用于chan,map,slice 的内存创建，而且它返回的类型就是这三个类型本身，而不是他们的指针类型，因为这三种类型就是引用类型，所以没有必要返回他们的指针</span><br><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="go-的GC-垃圾回收"><a href="#go-的GC-垃圾回收" class="headerlink" title="go 的GC 垃圾回收"></a>go 的GC 垃圾回收</h3><p>三色标记法</p>
+<h3 id="Go-Context"><a href="#Go-Context" class="headerlink" title="Go Context"></a>Go Context</h3><p>控制并发有两种经典的方式，一种是WaitGroup，另外一种就是Context，</p>
+<p>WaitGroup 控制并发，必须等待所有的goroutine 都完成，才算结束</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	<span class="hljs-keyword">var</span> wg sync.WaitGroup<br><br>	wg.Add(<span class="hljs-number">2</span>)<br>	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>		time.Sleep(<span class="hljs-number">2</span>*time.Second)<br>		fmt.Println(<span class="hljs-string">&quot;1号完成&quot;</span>)<br>		wg.Done()<br>	&#125;()<br>	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>		time.Sleep(<span class="hljs-number">2</span>*time.Second)<br>		fmt.Println(<span class="hljs-string">&quot;2号完成&quot;</span>)<br>		wg.Done()<br>	&#125;()<br>	wg.Wait()<br>	fmt.Println(<span class="hljs-string">&quot;好了，大家都干完了，放工&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>chan 通知 （chan + select）</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	stop := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">bool</span>)<br><br>	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;<br>		<span class="hljs-keyword">for</span> &#123;<br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> &lt;-stop:<br>				fmt.Println(<span class="hljs-string">&quot;监控退出，停止了...&quot;</span>)<br>				<span class="hljs-keyword">return</span><br>			<span class="hljs-keyword">default</span>:<br>				fmt.Println(<span class="hljs-string">&quot;goroutine监控中...&quot;</span>)<br>				time.Sleep(<span class="hljs-number">2</span> * time.Second)<br>			&#125;<br>		&#125;<br>	&#125;()<br><br>	time.Sleep(<span class="hljs-number">10</span> * time.Second)<br>	fmt.Println(<span class="hljs-string">&quot;可以了，通知监控停止&quot;</span>)<br>	stop&lt;- <span class="hljs-literal">true</span> <span class="hljs-comment">//发送结束通知</span><br>	<span class="hljs-comment">//为了检测监控过是否停止，如果没有监控输出，就表示停止了</span><br>	time.Sleep(<span class="hljs-number">5</span> * time.Second)<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<p>Context  适用于嵌套的 goroutine</p>
+<p>比如一个网络请求Request，每个Request都需要开启一个goroutine做一些事情，这些goroutine又可能会开启其他的goroutine。所以我们需要一种可以跟踪goroutine的方案，才可以达到控制他们的目的，这就是Go语言为我们提供的Context，称之为上下文非常贴切，它就是goroutine的上下文</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	ctx, cancel := context.WithCancel(context.Background())<br>	<span class="hljs-keyword">go</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(ctx context.Context)</span></span> &#123;<br>		<span class="hljs-keyword">for</span> &#123;<br>			<span class="hljs-keyword">select</span> &#123;<br>			<span class="hljs-keyword">case</span> &lt;-ctx.Done():<br>				fmt.Println(<span class="hljs-string">&quot;监控退出，停止了...&quot;</span>)<br>				<span class="hljs-keyword">return</span><br>			<span class="hljs-keyword">default</span>:<br>				fmt.Println(<span class="hljs-string">&quot;goroutine监控中...&quot;</span>)<br>				time.Sleep(<span class="hljs-number">2</span> * time.Second)<br>			&#125;<br>		&#125;<br>	&#125;(ctx)<br><br>	time.Sleep(<span class="hljs-number">10</span> * time.Second)<br>	fmt.Println(<span class="hljs-string">&quot;可以了，通知监控停止&quot;</span>)<br>	cancel()<br>	<span class="hljs-comment">//为了检测监控过是否停止，如果没有监控输出，就表示停止了</span><br>	time.Sleep(<span class="hljs-number">5</span> * time.Second)<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<p>示例中启动了3个监控goroutine进行不断的监控，每一个都使用了Context进行跟踪，当我们使用<code>cancel</code>函数通知取消时，这3个goroutine都会被结束。这就是Context的控制能力，它就像一个控制器一样，按下开关后，所有基于这个Context或者衍生的子Context都会收到通知，这时就可以进行清理操作了，最终释放goroutine，这就优雅的解决了goroutine启动后不可控的问题。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>	ctx, cancel := context.WithCancel(context.Background())<br>	<span class="hljs-keyword">go</span> watch(ctx,<span class="hljs-string">&quot;【监控1】&quot;</span>)<br>	<span class="hljs-keyword">go</span> watch(ctx,<span class="hljs-string">&quot;【监控2】&quot;</span>)<br>	<span class="hljs-keyword">go</span> watch(ctx,<span class="hljs-string">&quot;【监控3】&quot;</span>)<br><br>	time.Sleep(<span class="hljs-number">10</span> * time.Second)<br>	fmt.Println(<span class="hljs-string">&quot;可以了，通知监控停止&quot;</span>)<br>	cancel()<br>	<span class="hljs-comment">//为了检测监控过是否停止，如果没有监控输出，就表示停止了</span><br>	time.Sleep(<span class="hljs-number">5</span> * time.Second)<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">watch</span><span class="hljs-params">(ctx context.Context, name <span class="hljs-keyword">string</span>)</span></span> &#123;<br>	<span class="hljs-keyword">for</span> &#123;<br>		<span class="hljs-keyword">select</span> &#123;<br>		<span class="hljs-keyword">case</span> &lt;-ctx.Done():<br>			fmt.Println(name,<span class="hljs-string">&quot;监控退出，停止了...&quot;</span>)<br>			<span class="hljs-keyword">return</span><br>		<span class="hljs-keyword">default</span>:<br>			fmt.Println(name,<span class="hljs-string">&quot;goroutine监控中...&quot;</span>)<br>			time.Sleep(<span class="hljs-number">2</span> * time.Second)<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>一个线程分为<code>内核态</code>线程和<code>用户态</code>线程，一个用户态线程必须绑定一个内核态线程</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/47e396eea8f0e71532356197412d52f1_1294x1106.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>我们将内核线程叫<code>线程</code>，用户线程叫<code>协程</code></p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/459db145d4e702994548a1757238946f_1248x1064.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>协程与线程的映射关系</p>
+<blockquote>
+<p>N:1 关系：N个协程绑定1个线程</p>
+</blockquote>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/f8d715899f6db333d37f2bf738116bfd_1352x1092.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>1:1关系：1个协程绑定1个线程</p>
+</blockquote>
+<blockquote>
+<p>M:N 关系</p>
+</blockquote>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/0037f6c2e12ad82a912990bba3e0085c_1336x1112.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>协程跟线程是有区别的，线程由CPU调度是抢占式的，<strong>协程由用户态调度是协作式的</strong>，一个协程让出CPU后，才执行下一个协程</p>
+<h3 id="被废弃的goroutine调度器（GM）"><a href="#被废弃的goroutine调度器（GM）" class="headerlink" title="被废弃的goroutine调度器（GM）"></a>被废弃的goroutine调度器（GM）</h3><p>G —— Goroutine 协程</p>
+<p>M —— 线程</p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/bdcdc5e6fcb03244a9843333cca62378_1292x860.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>缺点：</p>
+<ol>
+<li>创建、销毁、调度G都需要每个M获取锁，这就形成了<strong>激烈的锁竞争</strong>。</li>
+<li>M转移G会造成<strong>延迟和额外的系统负载</strong>。比如当G中包含创建新协程的时候，M创建了G’，为了继续执行G，需要把G’交给M’执行，也造成了<strong>很差的局部性</strong>，因为G’和G是相关的，最好放在M上执行，而不是其他M’。</li>
+<li>系统调用(CPU在M之间的切换)导致频繁的线程阻塞和取消阻塞操作增加了系统开销</li>
+</ol>
+<h3 id="GMP"><a href="#GMP" class="headerlink" title="GMP"></a>GMP</h3><p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/6bdb04101cc63565c17cd8fcaba17321_1068x876.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/ebfe3e28315f12a08fbb4ffaee32e046_1024x768.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>P 默认数量为CPU 核数</p>
+<h5 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h5><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk">[如何通过JWT防御CSRF]<br>(https:<span class="hljs-regexp">//</span>segmentfault.com<span class="hljs-regexp">/a/</span><span class="hljs-number">1190000003716037</span>)<br><br>JWT (JSON Web Token) <br>https:<span class="hljs-regexp">//</span>xie.infoq.cn<span class="hljs-regexp">/article/</span><span class="hljs-number">5</span>efd17d8261409a92c7b82bb9<br><br>由于http 是无状态的<br>JWT 和 Session Cookies 就是用来处理在不同页面之间切换，保存用户登录信息的机制<br><br>Session Cookies<br>session 信息保存在服务端，在每次请求时，服务器都会从会话 Cookie 中读取 SessionId，如果服务端的数据和读取的 SessionId 相同，那么服务器就会发送响应给浏览器，允许用户登录<br><br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/junior2018/mark_down/raw/master/go/06fd4ada6af3f39d868e3319c72c03cf.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/19/hexo%E5%8D%9A%E5%AE%A2%E9%83%A8%E7%BD%B2%E6%9B%B4%E6%96%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">hexo博客部署更新</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/15/%E5%9B%9B%E7%A7%8D%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%EF%BC%9A%E5%8D%95%E4%BD%93%E6%9E%B6%E6%9E%84%E3%80%81%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84%E3%80%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E3%80%81Serverless%E6%9E%B6%E6%9E%84/">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?386292c51955aec0e2dfbe44ec08bfca";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
