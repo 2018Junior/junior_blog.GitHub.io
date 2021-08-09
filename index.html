@@ -193,12 +193,11 @@
           
             
           
-          GO 问题汇总[TOC]
-空指针报错panic: runtime error: invalid memory address or nil pointer dereference
+          GO 问题汇总空指针报错panic: runtime error: invalid memory address or nil pointer dereference
 比如定义一个全局变量  var Db *gorm.DB
 如果没有对 Db 赋值，就会报 nil pointer 错误
 
-12345678910111213141516171819var db *gorm.DBfunc m
+12345678910111213141516171819var db *gorm.DBfunc main()&
         </a>
       </p>
 
